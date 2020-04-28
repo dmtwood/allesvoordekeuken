@@ -25,4 +25,12 @@ public class JpaArtikelRepository implements ArtikelRepository {
                                 )
                 );
     }
+
+    @Override
+    public void create(Artikel artikel) {
+        manager
+                .persist(
+                        artikel
+                );
+    }
 }
