@@ -4,6 +4,7 @@ import be.vdab.allesvoordekeuken.domain.Artikel;
 import org.hibernate.type.EntityType;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 import java.util.Optional;
 
 public class JpaArtikelRepository implements ArtikelRepository {
@@ -32,5 +33,14 @@ public class JpaArtikelRepository implements ArtikelRepository {
                 .persist(
                         artikel
                 );
+    }
+
+    @Override
+    public List<Artikel> findByNameContaining(String zoekString) {
+        return manager.createNamedQuery(
+                "Artikel.findByNameContaining", Artikel.class
+        ).setParameter(
+                "zoals", '%' + zoekString + '%'
+        ).getResultList();
     }
 }

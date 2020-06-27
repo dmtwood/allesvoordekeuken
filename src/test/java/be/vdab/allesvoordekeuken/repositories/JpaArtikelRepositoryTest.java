@@ -10,6 +10,7 @@ import org.springframework.test.context.junit4.AbstractTransactionalJUnit4Spring
 import java.math.BigDecimal;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 @DataJpaTest
 @Import(JpaArtikelRepository.class)
@@ -46,15 +47,15 @@ public class JpaArtikelRepositoryTest extends AbstractTransactionalJUnit4SpringC
     }
 
     @Test
-    void findByOnbestaandeId(){
+    void findByOnbestaandeId() {
         assertThat(
                 jpaArtikelRepository
-                        .findById( -1 )
+                        .findById(-1)
         ).isNotPresent();
     }
 
     @Test
-    void create(){
+    void create() {
         Artikel artikel = new Artikel("test2", BigDecimal.ONE, BigDecimal.TEN);
         jpaArtikelRepository.create(artikel);
         assertThat(
@@ -63,6 +64,22 @@ public class JpaArtikelRepositoryTest extends AbstractTransactionalJUnit4SpringC
                         "id=" + artikel.getId()
                 )
         ).isOne();
+    }
+
+    @Test
+    void findByNameContaining() {
+        assertThat(
+                jpaArtikelRepository.findByNameContaining("es")
+        ).hasSize(
+                super.jdbcTemplate.queryForObject(
+                        "select count(*) from artikels where naam like '%es%'",
+                        Integer.class
+                )
+        ).extracting(
+                artikel -> artikel.getNaam().toLowerCase()
+        ).allSatisfy(
+                naam -> assertThat(naam).contains("es")
+        ).isSorted();
     }
 
 }

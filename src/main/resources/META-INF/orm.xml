@@ -1,0 +1,7 @@
+<named-query name="Artikel.findByNameContaining">
+    <query>
+        select a from Artikel a
+        where a.naam like: zoals
+        order by a.naam
+    </query>
+</named-query>
