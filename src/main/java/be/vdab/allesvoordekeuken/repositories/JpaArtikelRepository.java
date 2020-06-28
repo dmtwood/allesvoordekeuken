@@ -2,11 +2,13 @@ package be.vdab.allesvoordekeuken.repositories;
 
 import be.vdab.allesvoordekeuken.domain.Artikel;
 import org.hibernate.type.EntityType;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public class JpaArtikelRepository implements ArtikelRepository {
 
     private final EntityManager manager;
@@ -38,9 +40,11 @@ public class JpaArtikelRepository implements ArtikelRepository {
     @Override
     public List<Artikel> findByNameContaining(String zoekString) {
         return manager.createNamedQuery(
-                "Artikel.findByNameContaining", Artikel.class
+                "Artikel.findByNameContaining",
+                Artikel.class
         ).setParameter(
-                "zoals", '%' + zoekString + '%'
+                "zoals",
+                '%' + zoekString + '%'
         ).getResultList();
     }
 }
