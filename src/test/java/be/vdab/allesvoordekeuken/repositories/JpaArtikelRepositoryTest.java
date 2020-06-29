@@ -10,7 +10,7 @@ import org.springframework.test.context.junit4.AbstractTransactionalJUnit4Spring
 import java.math.BigDecimal;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+
 
 @DataJpaTest
 @Import(JpaArtikelRepository.class)

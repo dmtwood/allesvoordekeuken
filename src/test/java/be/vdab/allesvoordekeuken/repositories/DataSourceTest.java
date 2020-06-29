@@ -1,6 +1,5 @@
 package be.vdab.allesvoordekeuken.repositories;
 
-
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
