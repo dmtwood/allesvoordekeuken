@@ -66,20 +66,37 @@ public class JpaArtikelRepositoryTest extends AbstractTransactionalJUnit4SpringC
         ).isOne();
     }
 
-//    @Test
-//    void findByNameContaining() {
-//        assertThat(
-//                jpaArtikelRepository.findByNameContaining("es")
-//        ).hasSize(
-//                super.jdbcTemplate.queryForObject(
-//                        "select count(*) from artikels where naam like '%es%'",
-//                        Integer.class
-//                )
-//        ).extracting(
-//                artikel -> artikel.getNaam().toLowerCase()
-//        ).allSatisfy(
-//                naam -> assertThat(naam).contains("es")
-//        ).isSorted();
-//    }
+    @Test
+    void findByNameContaining() {
+        assertThat(
+                jpaArtikelRepository.findByNameContaining("es")
+        ).hasSize(
+                super.jdbcTemplate.queryForObject(
+                        "select count(*) from artikels where naam like '%es%'",
+                        Integer.class
+                )
+        ).extracting(
+                artikel -> artikel.getNaam().toLowerCase()
+        ).allSatisfy(
+                naam -> assertThat(naam).contains("es")
+        ).isSorted();
+    }
+
+    @Test
+    void algemenePrijsverhoging(){
+        assertThat(
+        jpaArtikelRepository.algemenePrijsverhoging(BigDecimal.TEN)
+        ).isEqualTo(
+                super.countRowsInTable(ARTIKELS)
+        );
+
+        assertThat(
+                super.jdbcTemplate.queryForObject(
+                        "select verkoopprijs from Artikels where id=?",
+                        BigDecimal.class,
+                        idVanTestArtikel()
+                )
+        ).isEqualByComparingTo("132");
+    }
 
 }

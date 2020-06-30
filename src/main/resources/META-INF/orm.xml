@@ -10,4 +10,15 @@
             order by a.naam
         </query>
     </named-query>
+
+    <named-query name="Artikel.algemenePrijsverhoging">
+        <query>
+            update Artikel a
+            set a.verkoopprijs = a.verkoopprijs * :factor
+        </query>
+    </named-query>
+
+
 </entity-mappings>
+
+
